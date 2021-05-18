@@ -134,7 +134,6 @@ let state = [
 }
 ]
 
-let totalSpent = 0
 let spanTotal = document.querySelector(`.total-number`)
 
 function renderStoreItems(items) {
@@ -168,9 +167,9 @@ function renderStoreItems(items) {
       console.log(item)
       if (item.quantityToCart === 0){
         displayToCart(item)
-        addQuantity(item)
+        addQuantityToCart(item)
       } else {
-        addQuantity(item)
+        addQuantityToCart(item)
       }
       
     })
@@ -181,7 +180,7 @@ function renderStoreItems(items) {
   }
 }
 
-function addQuantity(item) {
+function addQuantityToCart(item) {
   let cartQuantity = document.querySelector(`.quantity${item.name}`)
   cartQuantity.innerText = ++item.quantityToCart
   updateTotal(state)
@@ -235,7 +234,7 @@ function displayToCart(item) {
   cartPlusBtn.innerText = "+"
 
   cartPlusBtn.addEventListener(`click`, function() {
-    addQuantity(item)
+    addQuantityToCart(item)
   })
 
   let deleteLiFromCart = document.createElement(`button`)
@@ -253,25 +252,13 @@ function displayToCart(item) {
 }
 
 function updateTotal(items) {
+  let newTotal = 0
   for (const item of items) {
-    if (item.quantityToCart > 0) {
-      totalSpent += (item.quantityToCart * item.price).toFixed(2)
-      
-    }
-    // let priceOfOneItem = item.quantityToCart * item.price
-    // if (spanTotal.innerText === "£0.00") {
-    //     totalSpent += priceOfOneItem
-    //     spanTotal.innerText = totalSpent.toFixed(2)
-    // }else {
-      
-    //   totalSpent += priceOfOneItem
-    //   spanTotal.innerText = totalSpent.toFixed(2)
 
-    // }
-  }
-  console.log(totalSpent)
-  spanTotal.innerText = 0
-  spanTotal.innerText = totalSpent
+    newTotal += (item.quantityToCart * item.price)
+  } 
+  
+  spanTotal.innerText = newTotal.toFixed(2)
 }
 
 renderStoreItems(state)
